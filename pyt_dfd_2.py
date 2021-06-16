@@ -29,6 +29,10 @@ print(device)
 cl_imgs_lst = glob.glob('reals_part_2/*jpg')
 # reals pt 0: 21410
 cl_imgs_lst += glob.glob('reals_part_0/*jpg')
+cl_imgs_lst += glob.glob('reals_part_1/*jpg')
+cl_imgs_lst += glob.glob('reals_part_3/*jpg')
+cl_imgs_lst += glob.glob('reals_part_4/*jpg')
+cl_imgs_lst += glob.glob('reals_part_5/*jpg')
 # list the number of images
 cl_gt_label = [1] * len(cl_imgs_lst)
 
@@ -42,6 +46,10 @@ print(len(cl_imgs_lst))
 fk_imgs_lst = glob.glob('fakes_part_2/*jpg')
 # fakes pt 0: 271815
 fk_imgs_lst += glob.glob('fakes_part_0/*jpg')
+fk_imgs_lst += glob.glob('fakes_part_1/*jpg')
+fk_imgs_lst += glob.glob('fakes_part_3/*jpg')
+fk_imgs_lst += glob.glob('fakes_part_4/*jpg')
+fk_imgs_lst += glob.glob('fakes_part_5/*jpg')
 #fk_imgs_lst = glob.glob('./all_frames_face_samebb/fs/*jpg')
 #fk_imgs_lst += glob.glob('./all_frames_face_samebb/nt/*jpg')
 #fk_imgs_lst += glob.glob('./all_frames_face_samebb/f2f/*jpg')
