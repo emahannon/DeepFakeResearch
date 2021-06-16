@@ -21,19 +21,20 @@ print("\n")
 # this should print all the key, value pairs in sorted order
 keyNum = 0
 for key in sortedKeys:
-	print(key, " ", file[key])
-	#print(file[key]['label'])
+	#print(key, " ", file[key])
+	#print(file[key]['is_fake'])
 	# myKey = 'dfdc_train_part_0/' + key
 	myKey = glob.glob('faces_0/' + str(keyNum) + '_*.jpg')
 	#print(myKey)
 	# assuming that 0 is real and 1 is fake for is_fake
-	if (file[key]['is_fake'] == "1"):
-		print("fake detected")
+	if (file[key]['is_fake'] == 1):
 		for name in myKey:
 			shutil.copy(name, 'fakes_0')
-	if (file[key]['is_fake'] == "0"):
+			#print("fake detected")
+	if (file[key]['is_fake'] == 0):
 		for name in myKey:
 			shutil.copy(name, 'reals_0')
+			#print("real detected")
 	keyNum += 1;
 
 print("\n")
