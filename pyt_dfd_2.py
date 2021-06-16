@@ -48,9 +48,36 @@ fk_imgs_lst += glob.glob('fakes_part_0/*jpg')
 #fk_imgs_lst += glob.glob('./all_frames_face_samebb/df/*jpg')
 fk_gt_label = [0] * len(fk_imgs_lst)
 
+# fakes and reals of the test set
+tst_fk_imgs_lst = glob.glob('../test/fakes_0/*jpg')
+tst_fk_imgs_lst += glob.glob('../test/fakes_1/*jpg')
+tst_fk_imgs_lst += glob.glob('../test/fakes_2/*jpg')
+tst_fk_imgs_lst += glob.glob('../test/fakes_3/*jpg')
+tst_fk_imgs_lst += glob.glob('../test/fakes_4/*jpg')
+
+tst_fk_gt_label = [0] * len(tst_fk_imgs_lst)
+
+
+tst_cl_imgs_lst = glob.glob('../test/reals_0/*jpg')
+tst_cl_imgs_lst += glob.glob('../test/reals_1/*jpg')
+tst_cl_imgs_lst += glob.glob('../test/reals_2/*jpg')
+tst_cl_imgs_lst += glob.glob('../test/reals_3/*jpg')
+tst_cl_imgs_lst += glob.glob('../test/reals_4/*jpg')
+
+tst_cl_gt_label = [1] * len(tst_cl_imgs_lst)
+
 # total shoud be 669372
 
+print("fakes:")
 print(len(fk_imgs_lst))
+print("reals:")
+print(len(cl_imgs_lst))
+print()
+print("test fakes:")
+print(len(tst_fk_imgs_lst))
+print("test reals:")
+print(len(tst_cl_imgs_lst))
+
 
 tr_imgs = []
 tr_lbl = []
@@ -68,26 +95,39 @@ c = 0
 for i in cl_imgs_lst:
 	# BE SURE TO CHANGE THE IF STATEMENT DEPENDING ON WHAT SIZE SET YOU USE
 	#if(int(i[-12:-9])<750):
-	if (int(c) < 40708):
-		tr_imgs += [i]
-		tr_lbl += [cl_gt_label[c]]
-	else:
-		tst_imgs += [i]
-		tst_lbl += [cl_gt_label[c]]
-	c+=1
+	tr_imgs += [i]
+	tr_lbl += [cl_gt_label[c]]
+	#if (int(c) < 40708):
+		#tr_imgs += [i]
+		#tr_lbl += [cl_gt_label[c]]
+	#else:
+		#tst_imgs += [i]
+		#tst_lbl += [cl_gt_label[c]]
+	#c+=1
 
 # fake images
 c = 0
 for i in fk_imgs_lst:
 	# BE SURE TO CHANGE THE IF STATEMENT DEPENDING ON WHAT SIZE SET YOU USE
 	#if(int(i[-12:-9])<750):
-	if (int(c) < 334686):
-		tr_imgs += [i]
-		tr_lbl += [fk_gt_label[c]]
-	else:
-		tst_imgs += [i]
-		tst_lbl += [fk_gt_label[c]]
-	c+=1
+	tr_imgs += [i]
+	tr_lbl += [fk_gt_label[c]]
+	#if (int(c) < 334686):
+		#tr_imgs += [i]
+		#tr_lbl += [fk_gt_label[c]]
+	#else:
+		#tst_imgs += [i]
+		#tst_lbl += [fk_gt_label[c]]
+	#c+=1
+
+# fake and clean test images
+for i in tst_cl_imgs_lst:
+	tst_imgs += [i]
+	tst_lbl += [tst_cl_gt_label]
+
+for i in tst_fk_imgs_lst:
+	tst_imgs += [i]
+	tst_lbl += [tst_fk_gt_label]
 
 
 print(len(tr_lbl))
