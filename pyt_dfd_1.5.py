@@ -29,10 +29,6 @@ print(device)
 cl_imgs_lst = glob.glob('reals_part_2/*jpg')
 # reals pt 0: 21410
 cl_imgs_lst += glob.glob('reals_part_0/*jpg')
-cl_imgs_lst += glob.glob('reals_part_1/*jpg')
-cl_imgs_lst += glob.glob('reals_part_3/*jpg')
-cl_imgs_lst += glob.glob('reals_part_4/*jpg')
-cl_imgs_lst += glob.glob('reals_part_5/*jpg')
 # list the number of images
 cl_gt_label = [1] * len(cl_imgs_lst)
 
@@ -46,10 +42,6 @@ print(len(cl_imgs_lst))
 fk_imgs_lst = glob.glob('fakes_part_2/*jpg')
 # fakes pt 0: 271815
 fk_imgs_lst += glob.glob('fakes_part_0/*jpg')
-fk_imgs_lst += glob.glob('fakes_part_1/*jpg')
-fk_imgs_lst += glob.glob('fakes_part_3/*jpg')
-fk_imgs_lst += glob.glob('fakes_part_4/*jpg')
-fk_imgs_lst += glob.glob('fakes_part_5/*jpg')
 #fk_imgs_lst = glob.glob('./all_frames_face_samebb/fs/*jpg')
 #fk_imgs_lst += glob.glob('./all_frames_face_samebb/nt/*jpg')
 #fk_imgs_lst += glob.glob('./all_frames_face_samebb/f2f/*jpg')
@@ -76,7 +68,7 @@ c = 0
 for i in cl_imgs_lst:
 	# BE SURE TO CHANGE THE IF STATEMENT DEPENDING ON WHAT SIZE SET YOU USE
 	#if(int(i[-12:-9])<750):
-	if (int(c) < 155658):
+	if (int(c) < 40708):
 		tr_imgs += [i]
 		tr_lbl += [cl_gt_label[c]]
 	else:
@@ -89,7 +81,7 @@ c = 0
 for i in fk_imgs_lst:
 	# BE SURE TO CHANGE THE IF STATEMENT DEPENDING ON WHAT SIZE SET YOU USE
 	#if(int(i[-12:-9])<750):
-	if (int(c) < 1160901):
+	if (int(c) < 334686):
 		tr_imgs += [i]
 		tr_lbl += [fk_gt_label[c]]
 	else:
@@ -232,7 +224,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
 # 1 loop through for is 1 epoch
 # too many epochs will overfit
-for epoch in range(5):  # loop over the dataset multiple times
+for epoch in range(2):  # loop over the dataset multiple times
 
 	running_loss = 0.0
 	correct = 0
@@ -320,9 +312,6 @@ with torch.no_grad():
 
 test_loss /= len(testloader.dataset)
 accuracy = 100.0 * test_correct / len(testloader.dataset)
-print(test_loss)
-print(accuracy)
-print(test_correct)
 
-print('\nTest set: Avg loss:{:.6f} Accuracy on test:{:.6f} Correct: {:.6f}'.format(
-	float(test_loss), float(accuracy), float(test_correct)))
+print('\nTest set: Avg loss:%.4f Accuracy on test:%.4 Correct: %.5',
+	test_loss, accuracy, test_correct)

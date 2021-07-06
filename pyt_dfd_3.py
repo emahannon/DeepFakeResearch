@@ -33,6 +33,9 @@ cl_imgs_lst += glob.glob('reals_part_1/*jpg')
 cl_imgs_lst += glob.glob('reals_part_3/*jpg')
 cl_imgs_lst += glob.glob('reals_part_4/*jpg')
 cl_imgs_lst += glob.glob('reals_part_5/*jpg')
+cl_imgs_lst += glob.glob('reals_part_6/*jpg')
+cl_imgs_lst += glob.glob('reals_part_7/*jpg')
+cl_imgs_lst += glob.glob('reals_part_8/*jpg')
 # list the number of images
 cl_gt_label = [1] * len(cl_imgs_lst)
 
@@ -50,6 +53,9 @@ fk_imgs_lst += glob.glob('fakes_part_1/*jpg')
 fk_imgs_lst += glob.glob('fakes_part_3/*jpg')
 fk_imgs_lst += glob.glob('fakes_part_4/*jpg')
 fk_imgs_lst += glob.glob('fakes_part_5/*jpg')
+fk_imgs_lst += glob.glob('fakes_part_6/*jpg')
+fk_imgs_lst += glob.glob('fakes_part_7/*jpg')
+fk_imgs_lst += glob.glob('fakes_part_8/*jpg')
 #fk_imgs_lst = glob.glob('./all_frames_face_samebb/fs/*jpg')
 #fk_imgs_lst += glob.glob('./all_frames_face_samebb/nt/*jpg')
 #fk_imgs_lst += glob.glob('./all_frames_face_samebb/f2f/*jpg')
@@ -65,37 +71,32 @@ tr_lbl = []
 tst_imgs = []
 tst_lbl = []
 
+# finish setting up testing images
+tst_imgs += cl_imgs_lst
+tst_imgs += fk_imgs_lst
+
+tr_lbl += cl_gt_label
+tr_lbl += fk_gt_label
+
+
+# set up training images
+tst_imgs_rl = glob.glob('../test/reals_all')
+tst_label_rl = [1] * len(tst_imgs_rl)
+tst_imgs_fk = glob.glob('../test/fakes_all')
+tst_label_fk = [0] * len(tst_imgs_fk)
+
+tst_imgs += tst_imgs_rl
+tst_imgs += tst_imgs_fk
+
+tst_lbl += tst_label_rl
+tst_lbl += tst_label_fk
+
+
+
 
 # 000_0000
 # usrs_frame
 # last image: 999_0334
-
-# split into train and test sets
-# clean images
-c = 0
-for i in cl_imgs_lst:
-	# BE SURE TO CHANGE THE IF STATEMENT DEPENDING ON WHAT SIZE SET YOU USE
-	#if(int(i[-12:-9])<750):
-	if (int(c) < 155658):
-		tr_imgs += [i]
-		tr_lbl += [cl_gt_label[c]]
-	else:
-		tst_imgs += [i]
-		tst_lbl += [cl_gt_label[c]]
-	c+=1
-
-# fake images
-c = 0
-for i in fk_imgs_lst:
-	# BE SURE TO CHANGE THE IF STATEMENT DEPENDING ON WHAT SIZE SET YOU USE
-	#if(int(i[-12:-9])<750):
-	if (int(c) < 1160901):
-		tr_imgs += [i]
-		tr_lbl += [fk_gt_label[c]]
-	else:
-		tst_imgs += [i]
-		tst_lbl += [fk_gt_label[c]]
-	c+=1
 
 
 print(len(tr_lbl))
