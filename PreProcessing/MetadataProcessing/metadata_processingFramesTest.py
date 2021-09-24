@@ -25,16 +25,16 @@ for key in sortedKeys:
 	#print(key, " ", file[key])
 	print(file[key]['is_fake'])
 	# myKey = 'dfdc_train_part_0/' + key
-	myKey = glob.glob('test_all_faces/' + str(keyNum) + '_*.jpg')
+	myKey = glob.glob('frames_all/' + str(keyNum) + '_*.jpg')
 	#print(myKey)
 	# assuming that 0 is real and 1 is fake for is_fake
 	if (file[key]['is_fake'] == 1):
 		for name in myKey:
-			shutil.copy(name, 'fakes_all')
+			shutil.copy(name, 'frames_fakes_all')
 			print("fake detected")
 	if (file[key]['is_fake'] == 0):
 		for name in myKey:
-			shutil.copy(name, 'reals_all')
+			shutil.copy(name, 'frames_reals_all')
 			print("real detected")
 	keyNum += 1;
 

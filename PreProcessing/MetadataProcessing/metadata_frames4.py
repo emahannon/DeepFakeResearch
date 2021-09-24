@@ -3,7 +3,7 @@ import shutil
 import glob
 
 # this will load the json file as a dictionary
-with open('metadata.json') as jsonFile:
+with open('dfdc_train_part_4/metadata.json') as jsonFile:
 	file = json5.load(jsonFile)
 
 
@@ -14,30 +14,25 @@ sortedKeys = sorted(file.keys())
 #print(file.keys())
 
 # the first print should give a sorted list
-#print("Sorted keys:")
+print("process loaded")
 #print(sortedKeys)
 #print("\n")
-print("process loaded")
 
 # this should print all the key, value pairs in sorted order
 keyNum = 0
 for key in sortedKeys:
 	#print(key, " ", file[key])
-	print(file[key]['is_fake'])
+	#print(file[key]['label'])
 	# myKey = 'dfdc_train_part_0/' + key
-	myKey = glob.glob('test_all_faces/' + str(keyNum) + '_*.jpg')
+	myKey = glob.glob('frames_part_4/' + str(keyNum) + '_*.jpg')
 	#print(myKey)
-	# assuming that 0 is real and 1 is fake for is_fake
-	if (file[key]['is_fake'] == 1):
+	if (file[key]['label'] == "FAKE"):
 		for name in myKey:
-			shutil.copy(name, 'fakes_all')
-			print("fake detected")
-	if (file[key]['is_fake'] == 0):
+			shutil.copy(name, 'frames_fakes_4')
+	if (file[key]['label'] == "REAL"):
 		for name in myKey:
-			shutil.copy(name, 'reals_all')
-			print("real detected")
+			shutil.copy(name, 'frames_reals_4')
 	keyNum += 1;
 
-#print("\n")
-#print(file)
-print("\n process finished")
+print("\n")
+print("process complete")
