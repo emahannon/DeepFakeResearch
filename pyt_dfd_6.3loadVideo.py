@@ -28,6 +28,8 @@ print(device)
 print("Pythorch version: ")
 print(torchvision.__version__)
 print("Loading full videos with resnet 3D")
+print("Loads 0-20 training set")
+print("increased the number of workers and decreased the learning rate")
 
 cl_vids_lst = glob.glob('video_reals_part_0/*mp4')
 cl_vids_lst += glob.glob('video_reals_part_1/*mp4')
@@ -40,6 +42,16 @@ cl_vids_lst += glob.glob('video_reals_part_7/*mp4')
 cl_vids_lst += glob.glob('video_reals_part_8/*mp4')
 cl_vids_lst += glob.glob('video_reals_part_9/*mp4')
 cl_vids_lst += glob.glob('video_reals_part_10/*mp4')
+cl_vids_lst += glob.glob('video_reals_part_11/*mp4')
+cl_vids_lst += glob.glob('video_reals_part_12/*mp4')
+cl_vids_lst += glob.glob('video_reals_part_13/*mp4')
+cl_vids_lst += glob.glob('video_reals_part_14/*mp4')
+cl_vids_lst += glob.glob('video_reals_part_15/*mp4')
+cl_vids_lst += glob.glob('video_reals_part_16/*mp4')
+cl_vids_lst += glob.glob('video_reals_part_17/*mp4')
+cl_vids_lst += glob.glob('video_reals_part_18/*mp4')
+cl_vids_lst += glob.glob('video_reals_part_19/*mp4')
+cl_vids_lst += glob.glob('video_reals_part_20/*mp4')
 
 cl_gt_label = [1] * len(cl_vids_lst)
 
@@ -65,6 +77,16 @@ fk_imgs_lst += glob.glob('video_fakes_part_7/*mp4')
 fk_imgs_lst += glob.glob('video_fakes_part_8/*mp4')
 fk_imgs_lst += glob.glob('video_fakes_part_9/*mp4')
 fk_imgs_lst += glob.glob('video_fakes_part_10/*mp4')
+fk_imgs_lst += glob.glob('video_fakes_part_11/*mp4')
+fk_imgs_lst += glob.glob('video_fakes_part_12/*mp4')
+fk_imgs_lst += glob.glob('video_fakes_part_13/*mp4')
+fk_imgs_lst += glob.glob('video_fakes_part_14/*mp4')
+fk_imgs_lst += glob.glob('video_fakes_part_15/*mp4')
+fk_imgs_lst += glob.glob('video_fakes_part_16/*mp4')
+fk_imgs_lst += glob.glob('video_fakes_part_17/*mp4')
+fk_imgs_lst += glob.glob('video_fakes_part_18/*mp4')
+fk_imgs_lst += glob.glob('video_fakes_part_19/*mp4')
+fk_imgs_lst += glob.glob('video_fakes_part_20/*mp4')
 
 fk_gt_label = [0] * len(fk_imgs_lst)
 
@@ -210,8 +232,8 @@ BATCH_SIZE = 1
 # GUESSING I NEED TO REPLACE THE LINES BELOW WITH THE VIDEO SPECIFIC DATA
 # 	LOADING FUNCTION FROM torchvision.io read_video OR VideoReader function?
 print("runnning with 0 workers")
-dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
-testloader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
+dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=1)
+testloader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=1)
 # train_dataset and test_dataset should contain lists of the video paths to the dataset
 # does this need to be a for loop?
 #dataloader = []
@@ -315,7 +337,9 @@ criterion = nn.CrossEntropyLoss()
 # optimizer/gradient will measure the change in all weights w regard to change
 # 	in error, can be thought of as slope of a function, when grad is 0 model
 # 	stops learning. when grad higher, model can learn faster
-optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+# previous learning rate: 0.001
+# decreasing the learning rate
+optimizer = optim.SGD(net.parameters(), lr=0.0001, momentum=0.9)
 
 print("beginning training")
 lossForChart = []
@@ -422,11 +446,3 @@ print(test_correct)
 
 print('\nTest set: Avg loss:{:.6f} Accuracy on test:{:.6f} Correct: {:.6f}'.format(
 	float(test_loss), float(accuracy), float(test_correct)))
-
-print('\nTraining loss plot:\n')
-plt.plot(lossForChart)
-plt.show()
-
-print('\nTesting loss plot:\n')
-plt.plot(lossForChartTest)
-plt.show()

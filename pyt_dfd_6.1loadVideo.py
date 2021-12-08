@@ -28,6 +28,7 @@ print(device)
 print("Pythorch version: ")
 print(torchvision.__version__)
 print("Loading full videos with resnet 3D")
+print("version where we attempt to modify the index")
 
 cl_vids_lst = glob.glob('video_reals_part_0/*mp4')
 cl_vids_lst += glob.glob('video_reals_part_1/*mp4')
@@ -39,7 +40,6 @@ cl_vids_lst += glob.glob('video_reals_part_6/*mp4')
 cl_vids_lst += glob.glob('video_reals_part_7/*mp4')
 cl_vids_lst += glob.glob('video_reals_part_8/*mp4')
 cl_vids_lst += glob.glob('video_reals_part_9/*mp4')
-cl_vids_lst += glob.glob('video_reals_part_10/*mp4')
 
 cl_gt_label = [1] * len(cl_vids_lst)
 
@@ -64,7 +64,6 @@ fk_imgs_lst += glob.glob('video_fakes_part_6/*mp4')
 fk_imgs_lst += glob.glob('video_fakes_part_7/*mp4')
 fk_imgs_lst += glob.glob('video_fakes_part_8/*mp4')
 fk_imgs_lst += glob.glob('video_fakes_part_9/*mp4')
-fk_imgs_lst += glob.glob('video_fakes_part_10/*mp4')
 
 fk_gt_label = [0] * len(fk_imgs_lst)
 
@@ -318,7 +317,6 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
 print("beginning training")
-lossForChart = []
 # 1 loop through for is 1 epoch
 # too many epochs will overfit
 for epoch in range(1):  # loop over the dataset multiple times
@@ -354,7 +352,6 @@ for epoch in range(1):  # loop over the dataset multiple times
 				print('Epoch : {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}\t Accuracy:{:.3f}%'.format(
 					epoch, i*len(inputs), len(dataloader.dataset), 100.*i / len(dataloader),
 									loss.item(), float(correct*100) / float(BATCH_SIZE*(i+1))))
-				lossForChart.append(loss.item())
 
 print('Finished Training')
 
@@ -369,8 +366,6 @@ test_correct = 0
 
 # how do you save what you have once you run?
 # for example: torch.save(model, 'aerialmodel.pth')
-
-lossForChartTest = []
 
 net.eval()
 with torch.no_grad():
@@ -396,7 +391,6 @@ with torch.no_grad():
 		# what does .item() do? where does it come from
 		# gets a single tensor
 		test_loss += loss.item()
-		lossForChartTest.append(loss.item())
 
 		# get predicted index by selecting max log probability
 		# argmax function from numpy -- returns indicies of the
@@ -422,11 +416,3 @@ print(test_correct)
 
 print('\nTest set: Avg loss:{:.6f} Accuracy on test:{:.6f} Correct: {:.6f}'.format(
 	float(test_loss), float(accuracy), float(test_correct)))
-
-print('\nTraining loss plot:\n')
-plt.plot(lossForChart)
-plt.show()
-
-print('\nTesting loss plot:\n')
-plt.plot(lossForChartTest)
-plt.show()
